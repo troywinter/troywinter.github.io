@@ -6,13 +6,16 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>Hexo</title>
+  <title>Connect to MySQL database in Golang | Hexo</title>
   <meta name="author" content="John Doe">
+  
+  <meta name="description" content="DriverThe driver I have used is go-sql-driver/mysql, since this is the most popular one looks like.
+InstallationFirst make sure $GOPATH environment va">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="Connect to MySQL database in Golang"/>
   <meta property="og:site_name" content="Hexo"/>
 
   
@@ -111,46 +114,29 @@ var _hmt = _hmt || [];
 
   <div class="container">
   	<div class="content">
-    	 <div class="page-header logo">
-  <h1>Hexo<span class="blink-fast">∎</span></h1>
-</div>
+    	 
 
-<div class="row page">
 
 	
+		<div class="page-header">
+			<h1> Connect to MySQL database in Golang</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
 	<div class="col-md-9">
 	
 
-		<div class="slogan">
-      <i class="fa fa-heart blink-slow"></i>
-      Keep and carry on.
-</div>    
-		<div id="top_search"></div>
-		<div class="mypage">
-		
-		<!-- title and entry -->
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2016/10/25/post/" >Connect to MySQL database in Golang</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2016-10-25  </div>
-		</div>
-	</div>
-	
+	<!-- content -->
+	<div class="mypage">		
+	  		
 
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="Driver"><a href="#Driver" class="headerlink" title="Driver"></a>Driver</h1><p>The driver I have used is go-sql-driver/mysql, since this is the most popular one looks like.</p>
+	  <h1 id="Driver"><a href="#Driver" class="headerlink" title="Driver"></a>Driver</h1><p>The driver I have used is go-sql-driver/mysql, since this is the most popular one looks like.</p>
 <h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><p>First make sure $GOPATH environment varible is already set, then install it with the command:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go get github.com/go-sql-driver/mysql</div></pre></td></tr></table></figure></p>
 <h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><p>You will need import both database/sql and github.com/go-sql-driver/mysql, because go-sql-driver/mysql is just an interface implementation of the database/sql.<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"><span class="keyword">import</span> (</div><div class="line">    _ <span class="string">"github.com/go-sql-driver/mysql"</span></div><div class="line">    <span class="string">"database/sql"</span></div><div class="line">    <span class="string">"fmt"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    db, err := sql.Open(<span class="string">"mysql"</span>, <span class="string">"mengyu:klose1991@/blog?charset=utf8"</span>)</div><div class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">        fmt.Println(<span class="string">"error opening db"</span>)</div><div class="line">    &#125;</div><div class="line">    rows, err := db.Query(<span class="string">"SELECT * FROM user"</span>)</div><div class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">        fmt.Println(<span class="string">"error executing query"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">defer</span> rows.Close()</div><div class="line">    <span class="keyword">for</span> rows.Next() &#123;</div><div class="line">        <span class="keyword">var</span> name <span class="keyword">string</span></div><div class="line">        <span class="keyword">var</span> gender <span class="keyword">string</span></div><div class="line">        <span class="keyword">var</span> age <span class="keyword">int</span></div><div class="line">        err = rows.Scan(&amp;name, &amp;gender, &amp;age)</div><div class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">            fmt.Println(<span class="string">"error scaning"</span>)</div><div class="line">        &#125;</div><div class="line">        fmt.Println(name)</div><div class="line">        fmt.Println(gender)</div><div class="line">        fmt.Println(age)</div><div class="line">    &#125;</div><div class="line">    db.Close()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>First, we need open a database connection with <code>sql.Open()</code> method, the first argument is the kind of database we are using, in this case it’s mysql, the second argument is the connection string for our database. Then we can issue a query with <code>db.Query()</code> method, it will return a certain rows of result, we need scan the result from rows into pointers using <code>Scan()</code> method. But in this case we need to enclose it with for loop calling the <code>rows.Next()</code> method, if you didn’t call this method, you will get a nil pointer.</p>
@@ -159,159 +145,75 @@ var _hmt = _hmt || [];
 <li>Always check the error within the for loop</li>
 <li>Call <code>defer rows.Close()</code> after the for loop to close the reource, just in case the for loop terminated unexpectly, it doesn’t hurt to close multiple times in go.</li>
 </ul>
-
-	
+	  
 	</div>
-  <a type="button" href="/2016/10/25/post/#more" class="btn btn-default more">Read More</a>
-</div>
 
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2016/10/21/First-post/" >First post</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2016-10-21  </div>
-		</div>
-	</div>
-	
+	<div>
+  	<center>
+	<div class="pagination">
 
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>Welcome to my blog, this is my new blog. I will share a lot in here about my technical opinion and something about my life and random thought.</p>
-
-	
-	</div>
-  <a type="button" href="/2016/10/21/First-post/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2016/10/21/hello-world/" >Hello World</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2016-10-21  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-	
-	</div>
-  <a type="button" href="/2016/10/21/hello-world/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-
-		</div>
-
-		<!-- pagination -->
-		<div>
-  		<center>
-		<div class="pagination">
-
-   
-</div>
-
-  		</center>
-		</div>
-
-		
-		
-	</div> <!-- col-md-9 -->
-
-	
-		<div class="col-md-3">
-	<div id="sidebar">
-	
-			
-  <div id="site_search">
-   <div class="form-group">
-    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
-   </div>  
-  <div id="local-search-result"></div>
-  </div>
-
-
-		
-			
-		
-			
-
-		
-			
-<div class="widget">
-  <h4>Recent Posts</h4>
-  <ul class="entry list-unstyled">
     
-      <li>
-        <a href="/2016/10/25/post/" ><i class="fa fa-file-o"></i>Connect to MySQL database i...</a>
-      </li>
     
-      <li>
-        <a href="/2016/10/21/First-post/" ><i class="fa fa-file-o"></i>First post</a>
-      </li>
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Prev</a>
     
-      <li>
-        <a href="/2016/10/21/hello-world/" ><i class="fa fa-file-o"></i>Hello World</a>
-      </li>
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-  </ul>
+    <a href="/2016/10/21/First-post/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
 </div>
 
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
 		
-			
-<div class="widget">
-	<h4>Links</h4>
-	<ul class="blogroll list-unstyled">
 	
-		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/hexo-theme-freemind" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
-	
-		<li><i class="fa fa-github"></i><a href="https://github.com/kristopolous/BOOTSTRA.386" title="BOOTSTRA.386's Github repository." target="_blank"]);">BOOTSTRA.386</a></li>
-	
-		<li><i class="fa fa-github"></i><a href="https://github.com/blackshow/hexo-theme-freemind.386" title="Freemind.386's Github repository." target="_blank"]);">Freemind.386</a></li>
-	
-		<li><i class="fa fa-github"></i><a href="http://www.github.com/blackshow" title="My Github account." target="_blank"]);">My Github</a></li>
-	
-	</ul>
-</div>
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
 
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2016-10-25 
+	</div>
+	
 
+	<!-- categories -->
+    
+
+	<!-- tags -->
 		
-	</div> <!-- sidebar -->
-</div> <!-- col-md-3 -->
 
+	<!-- toc -->
+	<div class="meta-widget">
 	
+	</div>
 	
-</div> <!-- row-fluid -->
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
 	</div>
   </div>
   <div class="container-narrow">
